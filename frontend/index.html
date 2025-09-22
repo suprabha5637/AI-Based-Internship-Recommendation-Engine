@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -336,16 +337,16 @@
             overflow: hidden;
         }
 
-        .dashboard-btn{
-            background-color: white; 
-            color: var(--primary); 
-            border-radius: 30px; 
-            padding:25px; 
-            border:none; 
-            margin-top:40px; 
-            font-weight:600; 
-            font-size:1.1rem; 
-            cursor:pointer;
+        .dashboard-btn {
+            background-color: white;
+            color: var(--primary);
+            border-radius: 30px;
+            padding: 25px;
+            border: none;
+            margin-top: 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
         }
@@ -741,7 +742,9 @@
             color: #334155;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 15px;
             border: 1px solid #cbd5e1;
@@ -750,7 +753,9 @@
             transition: all 0.2s ease;
         }
 
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
             outline: none;
@@ -910,6 +915,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -920,6 +926,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -930,10 +937,12 @@
                 opacity: 0;
                 transform: scale(0.8);
             }
+
             50% {
                 opacity: 1;
                 transform: scale(1.05);
             }
+
             100% {
                 opacity: 1;
                 transform: scale(1);
@@ -944,9 +953,11 @@
             0% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.05);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -1066,6 +1077,7 @@
             0% {
                 transform: translateY(0) rotate(0deg);
             }
+
             100% {
                 transform: translateY(-100vh) rotate(360deg);
             }
@@ -1135,7 +1147,7 @@
         .application-item:last-child {
             border-bottom: none;
         }
-        
+
         /* Sector tag styles */
         .sector-tags {
             display: flex;
@@ -1143,7 +1155,7 @@
             gap: 10px;
             margin-top: 20px;
         }
-        
+
         .sector-tag {
             background: var(--primary);
             color: white;
@@ -1152,7 +1164,7 @@
             font-size: 0.85rem;
             display: inline-block;
         }
-        
+
         /* Heatmap legend */
         .heatmap-legend {
             position: absolute;
@@ -1164,18 +1176,18 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        
+
         .heatmap-legend h4 {
             margin-bottom: 10px;
             color: var(--primary);
         }
-        
+
         .legend-item {
             display: flex;
             align-items: center;
             margin-bottom: 5px;
         }
-        
+
         .legend-color {
             width: 20px;
             height: 20px;
@@ -1259,7 +1271,7 @@
             .hero h1 {
                 font-size: 2.5rem;
             }
-            
+
             .section-title h2 {
                 font-size: 2.2rem;
             }
@@ -1269,72 +1281,72 @@
             .header-content {
                 flex-wrap: wrap;
             }
-            
+
             .mobile-menu-btn {
                 display: block;
                 order: 1;
             }
-            
+
             nav {
                 order: 3;
                 width: 100%;
                 margin-top: 20px;
                 display: none;
             }
-            
+
             nav.active {
                 display: block;
             }
-            
+
             nav ul {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             nav ul li {
                 margin-left: 0;
             }
-            
+
             nav ul li a {
                 display: block;
                 padding: 12px 15px;
                 border-radius: 8px;
             }
-            
+
             .auth-buttons {
                 order: 2;
                 margin-left: auto;
             }
-            
+
             .hero h1 {
                 font-size: 2.2rem;
             }
-            
+
             .hero p {
                 font-size: 1.1rem;
             }
-            
+
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             .search-bar {
                 flex-direction: column;
                 border-radius: 15px;
             }
-            
+
             .search-bar input {
                 width: 100%;
                 border-radius: 15px 15px 0 0;
             }
-            
+
             .search-bar button {
                 width: 100%;
                 padding: 15px;
                 border-radius: 0 0 15px 15px;
             }
-            
+
             .city-details {
                 position: relative;
                 top: auto;
@@ -1342,34 +1354,34 @@
                 max-width: 100%;
                 margin: 20px 0;
             }
-            
+
             .heatmap-legend {
                 position: relative;
                 bottom: auto;
                 right: auto;
                 margin: 20px 0;
             }
-            
+
             .map-container {
                 height: 400px;
             }
-            
+
             .form-row {
                 flex-direction: column;
                 gap: 0;
             }
-            
+
             .chatbot-container {
                 bottom: 80px;
                 left: 10px;
             }
-            
+
             .chatbot-window {
                 width: 320px;
                 left: 0;
                 bottom: 70px;
             }
-            
+
             .language-selector {
                 bottom: 160px;
                 right: 10px;
@@ -1380,79 +1392,89 @@
             .hero {
                 padding: 60px 0 40px;
             }
-            
+
             .hero h1 {
                 font-size: 1.8rem;
             }
-            
+
             .hero p {
                 font-size: 1rem;
             }
-            
+
             .hero-buttons .btn {
                 padding: 12px 25px;
                 font-size: 1rem;
             }
-            
+
             .section-title h2 {
                 font-size: 1.8rem;
             }
-            
+
             .section-title p {
                 font-size: 1rem;
             }
-            
-            .features, .dashboard-preview, .india-map, .ai-section, .stats, .ai-tools {
+
+            .features,
+            .dashboard-preview,
+            .india-map,
+            .ai-section,
+            .stats,
+            .ai-tools {
                 padding: 60px 0;
             }
-            
-            .feature-card, .ai-feature, .stat-item, .ai-tool-card {
+
+            .feature-card,
+            .ai-feature,
+            .stat-item,
+            .ai-tool-card {
                 padding: 25px 20px;
             }
-            
-            .feature-icon, .ai-tool-icon {
+
+            .feature-icon,
+            .ai-tool-icon {
                 font-size: 40px;
             }
-            
-            .feature-card h3, .ai-tool-card h3 {
+
+            .feature-card h3,
+            .ai-tool-card h3 {
                 font-size: 1.4rem;
             }
-            
+
             .stat-number {
                 font-size: 32px;
             }
-            
+
             .user-profile span {
                 display: none;
             }
-            
+
             .auth-buttons .btn {
                 padding: 8px 15px;
                 font-size: 0.9rem;
             }
-            
+
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-            
+
             .modal-content {
                 padding: 30px 20px;
             }
-            
+
             .modal-title {
                 font-size: 24px;
             }
-            
+
             .chatbot-window {
                 width: calc(100vw - 40px);
                 height: 400px;
             }
-            
+
             .chatbot-container {
                 bottom: 70px;
             }
-            
+
             .language-selector {
                 bottom: 150px;
             }
@@ -1462,56 +1484,62 @@
             .logo {
                 font-size: 20px;
             }
-            
+
             .logo i {
                 font-size: 24px;
             }
-            
+
             .hero h1 {
                 font-size: 1.6rem;
             }
-            
+
             .search-bar input {
                 padding: 15px;
             }
-            
-            .feature-card, .ai-feature, .stat-item, .ai-tool-card {
+
+            .feature-card,
+            .ai-feature,
+            .stat-item,
+            .ai-tool-card {
                 padding: 20px 15px;
             }
-            
-            .feature-icon, .ai-tool-icon {
+
+            .feature-icon,
+            .ai-tool-icon {
                 font-size: 35px;
                 margin-bottom: 15px;
             }
-            
-            .feature-card h3, .ai-tool-card h3 {
+
+            .feature-card h3,
+            .ai-tool-card h3 {
                 font-size: 1.2rem;
             }
-            
+
             .stat-number {
                 font-size: 28px;
             }
-            
+
             .map-container {
                 height: 300px;
             }
-            
-            .chatbot-btn, .lang-btn {
+
+            .chatbot-btn,
+            .lang-btn {
                 width: 50px;
                 height: 50px;
                 font-size: 20px;
             }
-            
+
             .chatbot-container {
                 bottom: 60px;
                 left: 5px;
             }
-            
+
             .language-selector {
                 bottom: 120px;
                 right: 5px;
             }
-            
+
             .lang-options {
                 width: 180px;
             }
@@ -1548,15 +1576,18 @@
                 --secondary: #0000aa;
                 --accent: #ffa500;
             }
-            
-            .feature-card, .ai-tool-card, .stat-item {
+
+            .feature-card,
+            .ai-tool-card,
+            .stat-item {
                 border: 2px solid var(--dark);
             }
         }
     </style>
 </head>
+
 <body>
-    
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -1595,7 +1626,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
@@ -1605,11 +1636,12 @@
     <section class="hero" id="home">
         <div class="container">
             <h1>Transform Your Future with PM Internship</h1>
-            <p>Discover thousands of internship opportunities across India with our AI-powered platform designed for students and young professionals.</p>
+            <p>Discover thousands of internship opportunities across India with our AI-powered platform designed for
+                students and young professionals.</p>
             <div class="hero-buttons">
                 <button class="btn btn-outline" id="watchDemoBtn">Watch Demo</button>
             </div>
-            
+
             <div class="search-container">
                 <div class="search-bar">
                     <input type="text" placeholder="Search for internships by role, company, or location...">
@@ -1618,7 +1650,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Floating icons for visual effect -->
         <div class="floating-icons">
             <i class="fas fa-graduation-cap floating-icon" style="left: 10%; animation-delay: 0s;"></i>
@@ -1638,7 +1670,8 @@
         <div class="container">
             <div class="section-title">
                 <h2>Why Choose PM Internship?</h2>
-                <p>Our platform offers a comprehensive suite of tools and resources to help you find the perfect internship opportunity</p>
+                <p>Our platform offers a comprehensive suite of tools and resources to help you find the perfect
+                    internship opportunity</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -1695,10 +1728,12 @@
                 <p>Access all internship opportunities, applications, and recommendations in one place</p>
                 <!-- <button style="background-color: white; font:black; border-radius: 30px; padding:25px; border:none; margin-top:40px; font-weight:600; font-size:1.1rem; color: var(--primary);
                 cursor:pointer;">Recommend Internships</button> -->
-                <button class="dashboard-btn" onclick="window.location.href='recommend.html'">Recommend Internships</button>
+                <button class="dashboard-btn" onclick="window.location.href='recommend.html'">Recommend
+                    Internships</button>
             </div>
             <div class="dashboard-container">
-                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80" alt="Dashboard Preview" class="dashboard-image">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80"
+                    alt="Dashboard Preview" class="dashboard-image">
             </div>
         </div>
     </section>
@@ -1745,11 +1780,11 @@
         </div>
     </section>
 
-      <!-- AI Tools Section -->
-      <section class="ai-tools" id="ai-tools">
+    <!-- AI Tools Section -->
+    <section class="ai-tools" id="ai-tools">
         <div class="container">
             <div class="section-title">
-             <h2>AI-Powered Career Tools</h2>
+                <h2>AI-Powered Career Tools</h2>
                 <p>Leverage artificial intelligence to enhance your internship search and career development</p>
             </div>
             <div class="ai-tools-grid">
@@ -1758,7 +1793,8 @@
                         <i class="fas fa-file-signature"></i>
                     </div>
                     <h3>AI Resume Builder</h3>
-                    <p>Create professional, ATS-friendly resumes tailored to specific internship opportunities with our AI-powered builder.</p>
+                    <p>Create professional, ATS-friendly resumes tailored to specific internship opportunities with our
+                        AI-powered builder.</p>
                     <button class="btn btn-primary">Try Now</button>
                 </div>
                 <div class="ai-tool-card">
@@ -1766,7 +1802,8 @@
                         <i class="fas fa-comment-dots"></i>
                     </div>
                     <h3>AI Interview Prep</h3>
-                    <p>Practice with our AI interview simulator that provides personalized feedback on your responses and body language.</p>
+                    <p>Practice with our AI interview simulator that provides personalized feedback on your responses
+                        and body language.</p>
                     <button class="btn btn-primary">Practice Now</button>
                 </div>
                 <div class="ai-tool-card">
@@ -1774,7 +1811,8 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3>Career Path Predictor</h3>
-                    <p>Discover potential career paths based on your skills, interests, and market trends with our predictive AI.</p>
+                    <p>Discover potential career paths based on your skills, interests, and market trends with our
+                        predictive AI.</p>
                     <button class="btn btn-primary">Explore Paths</button>
                 </div>
             </div>
@@ -1811,7 +1849,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Floating icons for visual effect -->
         <div class="floating-icons">
             <i class="fas fa-user-graduate floating-icon" style="left: 5%; animation-delay: 1s;"></i>
@@ -1828,12 +1866,13 @@
     </section>
 
     <!-- Language Selector -->
+    <div id="google_translate_element" style="display:none;"></div>
     <div class="language-selector">
         <div class="lang-btn" id="langBtn">
             <i class="fas fa-globe"></i>
         </div>
-        <div class="lang-options" id="langOptions">
-            <div class="lang-option active" data-lang="en">
+        <div class="lang-options notranslate" id="langOptions">
+            <div class="lang-option" data-lang="en">
                 <i class="fas fa-check"></i>
                 <span>English</span>
             </div>
@@ -1890,7 +1929,8 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>About Us</h3>
-                    <p>PM Internship is a government initiative to connect youth with relevant internship opportunities across India using artificial intelligence.</p>
+                    <p>PM Internship is a government initiative to connect youth with relevant internship opportunities
+                        across India using artificial intelligence.</p>
                 </div>
                 <div class="footer-column">
                     <h3>Quick Links</h3>
@@ -1927,6 +1967,58 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Google Translate Init -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                {
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,hi,bn,ta,te',
+                    autoDisplay: false
+                },
+                'google_translate_element'
+            );
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Change language on click -->
+    <script>
+        function changeLanguage(lang) {
+            var selectEl = document.querySelector("select.goog-te-combo");
+            if (selectEl) {
+                selectEl.value = lang;
+                selectEl.dispatchEvent(new Event("change"));
+            }
+        }
+
+        // Hook into your custom dropdown options
+        document.querySelectorAll(".lang-option").forEach(option => {
+            option.addEventListener("click", () => {
+                const selectedLang = option.getAttribute("data-lang");
+                changeLanguage(selectedLang);
+            });
+        });
+    </script>
+
+    <!-- Toggle dropdown -->
+    <script>
+        const langBtn = document.getElementById("langBtn");
+        const langOptions = document.getElementById("langOptions");
+
+        langBtn.addEventListener("click", () => {
+            langOptions.classList.toggle("show");
+        });
+
+        // Close dropdown when clicking anywhere outside
+        document.addEventListener("click", (e) => {
+            if (!langOptions.contains(e.target) && !langBtn.contains(e.target)) {
+                langOptions.classList.remove("show");
+            }
+        });
+
+    </script>
+
     <script>
         // Define all sectors
         const allSectors = [
@@ -1961,17 +2053,17 @@
         function generateRandomSectors() {
             const sectors = [];
             const numSectors = Math.floor(Math.random() * 8) + 8; // 8-15 sectors
-            
+
             // Shuffle sectors and take a subset
             const shuffled = [...allSectors].sort(() => 0.5 - Math.random());
-            
+
             for (let i = 0; i < numSectors; i++) {
                 sectors.push({
                     name: shuffled[i],
                     count: Math.floor(Math.random() * 90) + 10 // 10-100 opportunities
                 });
             }
-            
+
             return sectors;
         }
 
@@ -2012,14 +2104,14 @@
         // Initialize map
         function initMap() {
             const map = L.map('map').setView([20.5937, 78.9629], 5);
-            
+
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
-            
+
             // Create a heatmap layer
-            const heatMapData = cities.map(city => [city.lat, city.lng, city.opportunities/5]);
-            
+            const heatMapData = cities.map(city => [city.lat, city.lng, city.opportunities / 5]);
+
             // Add markers for each city
             cities.forEach(city => {
                 // Determine marker color based on opportunity count
@@ -2031,7 +2123,7 @@
                 } else {
                     markerColor = '#ffeda0'; // Yellow for low
                 }
-                
+
                 // Create a custom icon
                 const icon = L.divIcon({
                     className: 'custom-icon',
@@ -2039,9 +2131,9 @@
                     iconSize: [20, 20],
                     iconAnchor: [10, 10]
                 });
-                
+
                 const marker = L.marker([city.lat, city.lng], { icon: icon }).addTo(map);
-                
+
                 // Create popup content
                 const popupContent = `
                     <div style="padding: 10px;">
@@ -2058,33 +2150,33 @@
                         </button>
                     </div>
                 `;
-                
+
                 marker.bindPopup(popupContent);
-                
+
                 // Add hover effect
-                marker.on('mouseover', function() {
+                marker.on('mouseover', function () {
                     this.openPopup();
                     showCityDetails(city.name);
                 });
             });
         }
-        
+
         // Show city details
         function showCityDetails(cityName) {
             const city = cities.find(c => c.name === cityName);
             if (!city) return;
-            
+
             const cityDetails = document.getElementById('cityDetails');
             const cityNameElement = document.getElementById('cityName');
             const cityOpportunitiesElement = document.getElementById('cityOpportunities');
             const sectorListElement = document.getElementById('sectorList');
-            
+
             cityNameElement.textContent = city.name;
             cityOpportunitiesElement.textContent = city.opportunities;
-            
+
             // Clear previous sector list
             sectorListElement.innerHTML = '';
-            
+
             // Add sectors to the list
             city.sectors.forEach(sector => {
                 const sectorItem = document.createElement('div');
@@ -2095,42 +2187,28 @@
                 `;
                 sectorListElement.appendChild(sectorItem);
             });
-            
+
             // Show the city details panel
             cityDetails.style.display = 'block';
         }
-        
+
         // Initialize map when page loads
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initMap();
         });
 
-        // Language Selector
-        document.getElementById('langBtn').addEventListener('click', function() {
-            document.getElementById('langOptions').classList.toggle('show');
-        });
-
-        // Close language options when clicking outside
-        document.addEventListener('click', function(event) {
-            const langBtn = document.getElementById('langBtn');
-            const langOptions = document.getElementById('langOptions');
-            if (!langBtn.contains(event.target) && !langOptions.contains(event.target)) {
-                langOptions.classList.remove('show');
-            }
-        });
-
         // Chatbot Toggle
-        document.getElementById('chatbotBtn').addEventListener('click', function() {
+        document.getElementById('chatbotBtn').addEventListener('click', function () {
             document.getElementById('chatbotWindow').classList.toggle('show');
         });
 
-        document.getElementById('closeChatbot').addEventListener('click', function() {
+        document.getElementById('closeChatbot').addEventListener('click', function () {
             document.getElementById('chatbotWindow').classList.remove('show');
         });
 
         // Chatbot functionality
         document.getElementById('sendMessage').addEventListener('click', sendMessage);
-        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+        document.getElementById('chatInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 sendMessage();
             }
@@ -2139,17 +2217,17 @@
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
-            
+
             if (message === '') return;
-            
+
             // Add user message
             addMessage(message, 'user');
             input.value = '';
-            
+
             // Simulate AI response
             setTimeout(() => {
                 let response = '';
-                
+
                 if (message.toLowerCase().includes('internship') && message.toLowerCase().includes('find')) {
                     response = "I can help you find internships! What field are you interested in? (e.g., IT, Marketing, Design)";
                 } else if (message.toLowerCase().includes('apply')) {
@@ -2165,7 +2243,7 @@
                 } else {
                     response = "I'm here to help with your internship search. You can ask me about finding internships, application processes, resume tips, or interview preparation.";
                 }
-                
+
                 addMessage(response, 'bot');
             }, 1000);
         }
@@ -2174,14 +2252,14 @@
             const messagesContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', sender);
-            
+
             const contentDiv = document.createElement('div');
             contentDiv.classList.add('message-content');
             contentDiv.textContent = text;
-            
+
             messageDiv.appendChild(contentDiv);
             messagesContainer.appendChild(messageDiv);
-            
+
             // Scroll to bottom
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
@@ -2190,7 +2268,7 @@
         function addFloatingIcons() {
             const icons = ['fas fa-brain', 'fas fa-rocket', 'fas fa-graduation-cap', 'fas fa-lightbulb', 'fas fa-code', 'fas fa-chart-line'];
             const heroSection = document.querySelector('.hero');
-            
+
             for (let i = 0; i < 20; i++) {
                 const icon = document.createElement('i');
                 icon.className = icons[Math.floor(Math.random() * icons.length)] + ' floating-icon';
@@ -2205,5 +2283,6 @@
         // Initialize floating icons
         addFloatingIcons();
     </script>
-</>
+    </>
+
 </html>
