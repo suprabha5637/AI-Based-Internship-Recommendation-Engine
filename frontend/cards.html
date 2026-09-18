@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Based-Internship-Recommendation-Engine – Explore Internships</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+      color: #f8fafc;
+    }
+
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+
+    .brand-logo i {
+      font-size: 24px;
+      color: #f59e0b;
+    }
+
+    .brand-logo h1 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    header nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    header nav a:hover, header nav a.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-banner {
+      padding: 40px 20px 25px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 0%, rgba(79, 45, 182, 0.4), transparent 70%);
+    }
+
+    .hero-banner h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-banner p {
+      font-size: 1.05rem;
+      color: #94a3b8;
+      max-width: 650px;
+      margin: 0 auto 20px;
+    }
+
+    .cta-banner-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-banner-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+    }
+
+    /* Filter Controls */
+    .filter-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 20px auto 15px;
+      flex-wrap: wrap;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .filters input, .filters select {
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 23, 42, 0.8);
+      color: #f8fafc;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .filters input:focus, .filters select:focus {
+      border-color: #6366f1;
+    }
+
+    .filters input {
+      flex: 2;
+      min-width: 260px;
+    }
+
+    .filters select {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .reset-btn {
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .reset-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+
+    /* Map container */
+    #indiaMap {
+      height: 380px;
+      width: 100%;
+      margin: 10px 0 35px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .category-heading {
+      font-size: 1.4rem;
+      margin: 35px 0 18px;
+      color: #f59e0b;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .internship-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(6px);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-top {
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .card p.desc {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .badge-loc { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .badge-dur { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+    .badge-stipend { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+    .badge-sector { background: rgba(167, 139, 250, 0.15); color: #c084fc; }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .apply-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: opacity 0.2s, transform 0.1s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .apply-btn:hover {
+      opacity: 0.95;
+      transform: scale(1.02);
+    }
+
+    .quick-view-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .quick-view-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 50px 20px;
+      color: #94a3b8;
+      font-size: 1.1rem;
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      background: #090d16;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.75);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-box {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      width: 90%;
+      max-width: 500px;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: none; border: none;
+      color: #94a3b8; font-size: 20px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 20px;
+      }
+      .filters {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="brand-logo">
+      <i class="fas fa-brain"></i>
+      <h1>AI-Based-Internship-Recommendation-Engine</h1>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cards.html" class="active">Explore Internships</a>
+      <a href="recommend.html">AI Recommendation</a>
+    </nav>
+  </header>
+
+  <div class="hero-banner">
+    <h2>Explore Verified Opportunities</h2>
+    <p>Discover hundreds of active internships nationwide. Filter by city, duration, or stipend, or run our AI recommender to calculate your personal match percentage.</p>
+    <a href="recommend.html" class="cta-banner-btn">
+      <i class="fas fa-magic"></i> Run AI Recommendation Engine
+    </a>
+  </div>
+
+  <div class="filter-wrapper">
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="🔍 Search by title, skill, or role...">
+      <select id="locationFilter">
+        <option value="">🌍 All Locations</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Pune">Pune</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Ahmedabad">Ahmedabad</option>
+        <option value="Jaipur">Jaipur</option>
+        <option value="Lucknow">Lucknow</option>
+        <option value="Chandigarh">Chandigarh</option>
+        <option value="Indore">Indore</option>
+        <option value="Bhopal">Bhopal</option>
+        <option value="Gurgaon">Gurgaon</option>
+        <option value="Noida">Noida</option>
+        <option value="Remote">Remote</option>
+      </select>
+      <select id="durationFilter">
+        <option value="">⏳ Any Duration</option>
+        <option value="1 Month">1 Month</option>
+        <option value="3 Months">3 Months</option>
+        <option value="6 Months">6 Months</option>
+      </select>
+      <select id="stipendFilter">
+        <option value="">💰 Any Stipend</option>
+        <option value="Unpaid">Unpaid</option>
+        <option value="0-5000">₹0 - ₹5000</option>
+        <option value="5000+">₹5000+</option>
+      </select>
+      <button class="reset-btn" id="resetBtn" title="Reset all filters"><i class="fas fa-undo"></i> Reset</button>
+    </div>
+
+    <div class="status-bar">
+      <span id="resultsCount">Showing all internships</span>
+      <span>💡 Click any city marker on the map to filter opportunities</span>
+    </div>
+
+    <!-- Map Container -->
+    <div id="indiaMap"></div>
+  </div>
+
+  <div class="section-container">
+    <div id="noResults" class="no-results">
+      <i class="fas fa-search" style="font-size: 3rem; color: #475569; margin-bottom: 15px; display: block;"></i>
+      <h3>No internships match your current filters</h3>
+      <p style="margin-top: 8px;">Try clearing some filters or searching for a different keyword.</p>
+    </div>
+
+    <!-- 🌐 Tech & IT -->
+    <div class="category-block" data-category="Tech & IT">
+      <h2 class="category-heading"><i class="fas fa-laptop-code"></i> Tech & IT Internships</h2>
+      <div class="internship-list">
+        <div class="card" data-location="Bangalore" data-duration="3 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>Web Development Intern</h3>
+            <p class="desc">Work with React, HTML5, CSS3, and Node.js to build modern responsive web interfaces and RESTful APIs.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Bangalore</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹12,000/mo</span>
+              <span class="badge badge-sector">Tech</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Web Development Intern', 'Bangalore', '3 Months', '₹12,000/mo', 'React, JavaScript, CSS, Node.js')">Details</button>
+            <a href="recommend.html?role=Web+Development+Intern&sector=Software+Developer&location=Bangalore" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Hyderabad" data-duration="6 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>App Development Intern</h3>
+            <p class="desc">Design and develop performant mobile applications using Flutter or React Native for iOS and Android.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Hyderabad</span>
+              <span class="badge badge-dur">⏳ 6 Months</span>
+              <span class="badge badge-stipend">💰 ₹15,000/mo</span>
+              <span class="badge badge-sector">Mobile</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('App Development Intern', 'Hyderabad', '6 Months', '₹15,000/mo', 'Flutter, Dart, Mobile UI, Firebase')">Details</button>
+            <a href="recommend.html?role=App+Development+Intern&sector=Software+Developer&location=Hyderabad" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Pune" data-duration="6 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>Software Engineering Intern</h3>
+            <p class="desc">Assist core backend engineering teams with Python, Java, microservices architecture, and unit testing.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Pune</span>
+              <span class="badge badge-dur">⏳ 6 Months</span>
+              <span class="badge badge-stipend">💰 ₹18,000/mo</span>
+              <span class="badge badge-sector">Engineering</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Software Engineering Intern', 'Pune', '6 Months', '₹18,000/mo', 'Python, Java, OOP, Git')">Details</button>
+            <a href="recommend.html?role=Software+Engineering+Intern&sector=Software+Developer&location=Pune" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Bangalore" data-duration="3 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>Data Science Intern</h3>
+            <p class="desc">Extract insights from large datasets, build statistical models, and generate data pipelines using pandas and scikit-learn.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Bangalore</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹20,000/mo</span>
+              <span class="badge badge-sector">Data</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Data Science Intern', 'Bangalore', '3 Months', '₹20,000/mo', 'Python, Pandas, SQL, ML')">Details</button>
+            <a href="recommend.html?role=Data+Science+Intern&sector=Data+Science&location=Bangalore" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Gurgaon" data-duration="6 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>AI / Machine Learning Intern</h3>
+            <p class="desc">Train and fine-tune machine learning and NLP models, design hybrid recommendation logic, and deploy AI services.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Gurgaon</span>
+              <span class="badge badge-dur">⏳ 6 Months</span>
+              <span class="badge badge-stipend">💰 ₹22,000/mo</span>
+              <span class="badge badge-sector">AI / ML</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('AI / ML Intern', 'Gurgaon', '6 Months', '₹22,000/mo', 'PyTorch, Scikit-Learn, NLP, Python')">Details</button>
+            <a href="recommend.html?role=AI+Machine+Learning+Intern&sector=Data+Science&location=Gurgaon" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Noida" data-duration="3 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>Cybersecurity Intern</h3>
+            <p class="desc">Perform vulnerability scanning, penetration testing basics, and assist with security compliance protocols.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Noida</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹14,000/mo</span>
+              <span class="badge badge-sector">Security</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Cybersecurity Intern', 'Noida', '3 Months', '₹14,000/mo', 'Network Security, Linux, Kali')">Details</button>
+            <a href="recommend.html?role=Cybersecurity+Intern&sector=Software+Developer&location=Noida" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Remote" data-duration="3 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>UI/UX Design Intern</h3>
+            <p class="desc">Create intuitive user experiences, wireframes, interactive Figma prototypes, and conduct usability research.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Remote</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹10,000/mo</span>
+              <span class="badge badge-sector">Design</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('UI/UX Design Intern', 'Remote', '3 Months', '₹10,000/mo', 'Figma, Wireframing, User Research')">Details</button>
+            <a href="recommend.html?role=UI+UX+Design+Intern&sector=Design&location=Remote" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Mumbai" data-duration="6 Months" data-stipend="5000+" data-category="Tech & IT">
+          <div class="card-top">
+            <h3>Cloud Computing Intern</h3>
+            <p class="desc">Deploy containerized workloads, configure AWS/GCP services, and learn Infrastructure as Code pipelines.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Mumbai</span>
+              <span class="badge badge-dur">⏳ 6 Months</span>
+              <span class="badge badge-stipend">💰 ₹16,000/mo</span>
+              <span class="badge badge-sector">Cloud</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Cloud Computing Intern', 'Mumbai', '6 Months', '₹16,000/mo', 'AWS, Docker, Linux, Cloud')">Details</button>
+            <a href="recommend.html?role=Cloud+Computing+Intern&sector=Software+Developer&location=Mumbai" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 💼 Business & Management -->
+    <div class="category-block" data-category="Business & Management">
+      <h2 class="category-heading"><i class="fas fa-briefcase"></i> Business & Management Internships</h2>
+      <div class="internship-list">
+        <div class="card" data-location="Delhi" data-duration="3 Months" data-stipend="5000+" data-category="Business & Management">
+          <div class="card-top">
+            <h3>Business Development Intern</h3>
+            <p class="desc">Identify strategic partnership opportunities, conduct market outreach, and assist client acquisition.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Delhi</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹10,000/mo</span>
+              <span class="badge badge-sector">Business</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Business Development Intern', 'Delhi', '3 Months', '₹10,000/mo', 'Client Relations, Sales Pitching, Market Research')">Details</button>
+            <a href="recommend.html?role=Business+Development+Intern&sector=Marketing&location=Delhi" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Mumbai" data-duration="3 Months" data-stipend="5000+" data-category="Business & Management">
+          <div class="card-top">
+            <h3>Digital Marketing Intern</h3>
+            <p class="desc">Execute SEO campaigns, manage paid social promotions, analyze campaign conversions, and optimize web reach.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Mumbai</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹12,000/mo</span>
+              <span class="badge badge-sector">Marketing</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Digital Marketing Intern', 'Mumbai', '3 Months', '₹12,000/mo', 'SEO, SEM, Social Media, Google Analytics')">Details</button>
+            <a href="recommend.html?role=Marketing+Intern&sector=Marketing&location=Mumbai" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Kolkata" data-duration="1 Month" data-stipend="0-5000" data-category="Business & Management">
+          <div class="card-top">
+            <h3>Human Resources (HR) Intern</h3>
+            <p class="desc">Assist with talent sourcing, candidate screening, scheduling technical interviews, and onboarding logistics.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Kolkata</span>
+              <span class="badge badge-dur">⏳ 1 Month</span>
+              <span class="badge badge-stipend">💰 ₹5,000/mo</span>
+              <span class="badge badge-sector">HR</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Human Resources Intern', 'Kolkata', '1 Month', '₹5,000/mo', 'HR Screening, Recruiting, Communication')">Details</button>
+            <a href="recommend.html?role=HR+Intern&sector=Management&location=Kolkata" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Chennai" data-duration="6 Months" data-stipend="5000+" data-category="Business & Management">
+          <div class="card-top">
+            <h3>Finance & Accounting Intern</h3>
+            <p class="desc">Assist in financial statement auditing, revenue forecasting, balance sheet variance analysis, and Excel modeling.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Chennai</span>
+              <span class="badge badge-dur">⏳ 6 Months</span>
+              <span class="badge badge-stipend">💰 ₹14,000/mo</span>
+              <span class="badge badge-sector">Finance</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Finance Intern', 'Chennai', '6 Months', '₹14,000/mo', 'Accounting, Financial Analysis, Excel')">Details</button>
+            <a href="recommend.html?role=Finance+Intern&sector=Finance&location=Chennai" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎨 Creative & Media -->
+    <div class="category-block" data-category="Creative & Media">
+      <h2 class="category-heading"><i class="fas fa-palette"></i> Creative & Media Internships</h2>
+      <div class="internship-list">
+        <div class="card" data-location="Remote" data-duration="3 Months" data-stipend="5000+" data-category="Creative & Media">
+          <div class="card-top">
+            <h3>Graphic Design Intern</h3>
+            <p class="desc">Produce high-impact social media creatives, branding guides, infographics, and marketing assets in Photoshop & Illustrator.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Remote</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹8,000/mo</span>
+              <span class="badge badge-sector">Creative</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Graphic Design Intern', 'Remote', '3 Months', '₹8,000/mo', 'Photoshop, Illustrator, Branding')">Details</button>
+            <a href="recommend.html?role=Graphic+Design+Intern&sector=Design&location=Remote" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Delhi" data-duration="3 Months" data-stipend="5000+" data-category="Creative & Media">
+          <div class="card-top">
+            <h3>Content Writing Intern</h3>
+            <p class="desc">Draft compelling technology articles, case studies, newsletters, and SEO-optimized website copy.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Delhi</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹9,000/mo</span>
+              <span class="badge badge-sector">Editorial</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Content Writing Intern', 'Delhi', '3 Months', '₹9,000/mo', 'Copywriting, SEO, Research, Editing')">Details</button>
+            <a href="recommend.html?role=Content+Writing+Intern&sector=Media&location=Delhi" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Mumbai" data-duration="3 Months" data-stipend="5000+" data-category="Creative & Media">
+          <div class="card-top">
+            <h3>Video Editing & Motion Intern</h3>
+            <p class="desc">Cut and assemble product reels, short-form viral videos, motion graphics, and audio mixing in Premiere & After Effects.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Mumbai</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹12,000/mo</span>
+              <span class="badge badge-sector">Video</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Video Editing Intern', 'Mumbai', '3 Months', '₹12,000/mo', 'Premiere Pro, After Effects, Sound')">Details</button>
+            <a href="recommend.html?role=Video+Editing+Intern&sector=Media&location=Mumbai" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔬 Science & Research -->
+    <div class="category-block" data-category="Science & Research">
+      <h2 class="category-heading"><i class="fas fa-microscope"></i> Science & Research Internships</h2>
+      <div class="internship-list">
+        <div class="card" data-location="Ahmedabad" data-duration="6 Months" data-stipend="5000+" data-category="Science & Research">
+          <div class="card-top">
+            <h3>Biotechnology Research Intern</h3>
+            <p class="desc">Conduct wet-lab molecular biological assays, assay optimization, cell culture maintenance, and analytical logging.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Ahmedabad</span>
+              <span class="badge badge-dur">⏳ 6 Months</span>
+              <span class="badge badge-stipend">💰 ₹10,000/mo</span>
+              <span class="badge badge-sector">Biotech</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Biotechnology Intern', 'Ahmedabad', '6 Months', '₹10,000/mo', 'Assay, PCR, Cell Culture, Lab')">Details</button>
+            <a href="recommend.html?role=Biotechnology+Intern&sector=Research&location=Ahmedabad" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+
+        <div class="card" data-location="Chandigarh" data-duration="3 Months" data-stipend="0-5000" data-category="Science & Research">
+          <div class="card-top">
+            <h3>Environmental Science Intern</h3>
+            <p class="desc">Analyze water and air quality samples, assess environmental impact metrics, and compile sustainability reports.</p>
+            <div class="badges">
+              <span class="badge badge-loc">📍 Chandigarh</span>
+              <span class="badge badge-dur">⏳ 3 Months</span>
+              <span class="badge badge-stipend">💰 ₹5,000/mo</span>
+              <span class="badge badge-sector">Sustainability</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="quick-view-btn" onclick="openDetails('Environmental Science Intern', 'Chandigarh', '3 Months', '₹5,000/mo', 'Data Collection, GIS, Ecology')">Details</button>
+            <a href="recommend.html?role=Environmental+Science+Intern&sector=Research&location=Chandigarh" class="apply-btn"><i class="fas fa-magic"></i> AI Match & Apply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-backdrop" id="detailModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <h3 id="modalTitle" style="color: #ffffff; font-size: 1.3rem; margin-bottom: 12px;">Internship Details</h3>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; font-size: 0.95rem; color: #cbd5e1;">
+        <p><strong>Location:</strong> <span id="modalLoc"></span></p>
+        <p><strong>Duration:</strong> <span id="modalDur"></span></p>
+        <p><strong>Stipend:</strong> <span id="modalStipend"></span></p>
+        <p><strong>Recommended Skills:</strong> <span id="modalSkills"></span></p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeModal()" class="quick-view-btn" style="flex: 1;">Close</button>
+        <a id="modalAiBtn" href="recommend.html" class="apply-btn" style="flex: 2;"><i class="fas fa-magic"></i> Calculate AI Match</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 AI-Based-Internship-Recommendation-Engine | Smart India Hackathon Initiative</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const locationFilter = document.getElementById("locationFilter");
+    const durationFilter = document.getElementById("durationFilter");
+    const stipendFilter = document.getElementById("stipendFilter");
+    const resetBtn = document.getElementById("resetBtn");
+    const resultsCount = document.getElementById("resultsCount");
+    const noResults = document.getElementById("noResults");
+    const cards = document.querySelectorAll(".card");
+    const categoryBlocks = document.querySelectorAll(".category-block");
+
+    function filterInternships() {
+      const text = searchInput.value.toLowerCase().trim();
+      const location = locationFilter.value;
+      const duration = durationFilter.value;
+      const stipend = stipendFilter.value;
+
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardText = card.innerText.toLowerCase();
+        const cardLoc = card.dataset.location || "";
+        const cardDur = card.dataset.duration || "";
+        const cardStipend = card.dataset.stipend || "";
+
+        const matchesText = !text || cardText.includes(text);
+        const matchesLocation = !location || cardLoc.toLowerCase() === location.toLowerCase();
+        const matchesDuration = !duration || cardDur.toLowerCase() === duration.toLowerCase();
+        const matchesStipend = !stipend || cardStipend.toLowerCase() === stipend.toLowerCase();
+
+        if (matchesText && matchesLocation && matchesDuration && matchesStipend) {
+          card.style.display = "flex";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      // Show/hide category headings based on child card visibility
+      categoryBlocks.forEach(block => {
+        const visibleCardsInBlock = block.querySelectorAll('.card[style*="display: flex"]');
+        block.style.display = visibleCardsInBlock.length > 0 ? "block" : "none";
+      });
+
+      // Status count & no results state
+      resultsCount.textContent = `Showing ${visibleCount} of ${cards.length} internships`;
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", filterInternships);
+    locationFilter.addEventListener("change", filterInternships);
+    durationFilter.addEventListener("change", filterInternships);
+    stipendFilter.addEventListener("change", filterInternships);
+
+    resetBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      locationFilter.value = "";
+      durationFilter.value = "";
+      stipendFilter.value = "";
+      filterInternships();
+    });
+
+    // Check URL parameters on load
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const urlSearch = params.get("search");
+      const urlLocation = params.get("location");
+      
+      if (urlSearch) searchInput.value = urlSearch;
+      if (urlLocation) locationFilter.value = urlLocation;
+
+      filterInternships();
+    });
+
+    // Modal helpers
+    const detailModal = document.getElementById('detailModal');
+    function openDetails(title, loc, dur, stipend, skills) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalLoc').textContent = loc;
+      document.getElementById('modalDur').textContent = dur;
+      document.getElementById('modalStipend').textContent = stipend;
+      document.getElementById('modalSkills').textContent = skills;
+      document.getElementById('modalAiBtn').href = `recommend.html?role=${encodeURIComponent(title)}&location=${encodeURIComponent(loc)}`;
+      detailModal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      detailModal.style.display = 'none';
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target === detailModal) closeModal();
+    });
+
+    // Initialize India map
+    var map = L.map('indiaMap').setView([21.7679, 78.8718], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var cities = [
+      { name: "Delhi", coords: [28.6139, 77.2090], count: 8 },
+      { name: "Mumbai", coords: [19.0760, 72.8777], count: 12 },
+      { name: "Bangalore", coords: [12.9716, 77.5946], count: 18 },
+      { name: "Chennai", coords: [13.0827, 80.2707], count: 7 },
+      { name: "Hyderabad", coords: [17.3850, 78.4867], count: 14 },
+      { name: "Pune", coords: [18.5204, 73.8567], count: 10 },
+      { name: "Kolkata", coords: [22.5726, 88.3639], count: 6 },
+      { name: "Ahmedabad", coords: [23.0225, 72.5714], count: 5 },
+      { name: "Jaipur", coords: [26.9124, 75.7873], count: 4 },
+      { name: "Lucknow", coords: [26.8467, 80.9462], count: 4 },
+      { name: "Chandigarh", coords: [30.7333, 76.7794], count: 5 },
+      { name: "Bhopal", coords: [23.2599, 77.4126], count: 3 },
+      { name: "Indore", coords: [22.7196, 75.8577], count: 4 },
+      { name: "Gurgaon", coords: [28.4595, 77.0266], count: 11 },
+      { name: "Noida", coords: [28.5355, 77.3910], count: 9 },
+      { name: "Remote", coords: [24.0000, 82.0000], count: 25 }
+    ];
+
+    cities.forEach(city => {
+      var marker = L.marker(city.coords).addTo(map);
+      marker.bindPopup(`
+        <div style="font-family: sans-serif; padding: 4px;">
+          <strong style="color: #4f46e5; font-size: 14px;">${city.name}</strong><br>
+          <span style="font-size: 12px; color: #475569;">${city.count} Opportunities Available</span><br>
+          <button onclick="selectCityFilter('${city.name}')" style="margin-top: 8px; background: #4f46e5; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px;">Filter Internships</button>
+        </div>
+      `);
+      marker.on('click', function() {
+        selectCityFilter(city.name);
+      });
+    });
+
+    function selectCityFilter(cityName) {
+      locationFilter.value = cityName;
+      filterInternships();
+      document.querySelector('.internship-list').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
